@@ -1,53 +1,24 @@
 import streamlit as st
-from flasgger import Swagger
 
-# Create a Streamlit app
-st.title("My Streamlit App with Swagger")
+# Define a function to handle API requests
+def my_api_function(input_data):
+    # Process input data and return some output
+    output_data = input_data * 2
+    return output_data
 
-# Initialize Swagger UI
-swagger = Swagger()
+# Streamlit app code
+def main():
+    st.title('My Streamlit API')
 
-# Define a route for Swagger UI
-@st.cache
-def load_swagger():
-    swagger_doc = {
-        'info': {
-            'title': 'My Streamlit API',
-            'description': 'An example of how to create a Streamlit API with Swagger',
-            'version': '1.0'
-        },
-        'host': 'localhost:8501',  # Update with your host
-        'basePath': '/',
-        'schemes': ['http', 'https'],
-    }
-    return swagger_doc
+    # Add input field for users to enter data
+    input_data = st.number_input('Enter a number')
 
-# Display Swagger UI
-load_swagger()
+    # Add a button to trigger the API request
+    if st.button('Run API'):
+        # Call the API function with the input data
+        output = my_api_function(input_data)
+        st.write('Output:', output)
 
-# Your API endpoints
-@st.cache
-def my_endpoint(param):
-    """
-    Endpoint description here
-    ---
-    parameters:
-      - name: param
-        in: query
-        type: string
-        required: true
-        description: Parameter description
-    responses:
-      200:
-        description: Successful operation
-    """
-    # Your API logic here
-    return "Response"
-
-# Get user input
-user_input = st.text_input("Enter parameter:")
-
-# Call your API endpoint
-if st.button("Submit"):
-    result = my_endpoint(user_input)
-    st.write("Result:", result)
+# Run the app
+if __name__ == '__main__':
+    main()
